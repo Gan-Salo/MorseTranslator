@@ -1,7 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-#include "translatorlogic.h".h"
+#include "translatorlogic.h"
 #include "textfilehandler.h"
 
 int main(int argc, char *argv[])
@@ -15,7 +15,6 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<TranslatorLogic>("TranslatorLogic", 1, 0, "TranslatorLogic");
     qmlRegisterType<TextFileHandler>("FileHandler", 1, 0, "TextFileHandler");
-
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

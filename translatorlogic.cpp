@@ -1,7 +1,4 @@
 #include "translatorlogic.h"
-#include <QHash>
-#include <QString>
-#include <QStringList>
 
 TranslatorLogic::TranslatorLogic(QObject *parent) : QObject(parent) {
 
@@ -32,8 +29,7 @@ QString TranslatorLogic::textToMorse(QString text) {
     for (QChar ch : text.toUpper()) {
         if (englishCharToMorse.contains(ch)) {
             morse += englishCharToMorse[ch] + " ";
-        }
-        else if (ch == ' ') {
+        } else if (ch == ' ') {
             morse += " ";
         }
     }

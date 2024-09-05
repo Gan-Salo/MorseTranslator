@@ -47,8 +47,7 @@ ApplicationWindow {
     function updateTranslation() {
         if (languageSelector.currentIndex === 0) {
             outputText.text = translator.textToMorse(inputText.text);
-        }
-        else {
+        } else {
             outputText.text = translator.morseToText(inputText.text);
         }
     }
