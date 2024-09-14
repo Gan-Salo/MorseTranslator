@@ -37,7 +37,7 @@ ApplicationWindow {
         nameFilters: ["Text files (*.txt)"]
         onAccepted: {
             var filePath = fileDialogLoad.selectedFile.toString();
-            filePath = filePath.replace("file:///", "");
+            filePath = filePath.replace("file://", "");
             var fileContent = fileHandler.loadFromFile(filePath);
             inputText.text = fileContent;
             updateTranslation();
@@ -45,10 +45,10 @@ ApplicationWindow {
     }
 
     function updateTranslation() {
-        if (languageSelector.currentIndex === 0) {
-            outputText.text = translator.textToMorse(inputText.text);
-        } else {
+        if (translator.isMorse(inputText.text)) {
             outputText.text = translator.morseToText(inputText.text);
+        } else {
+            outputText.text = translator.textToMorse(inputText.text);
         }
     }
 
@@ -56,16 +56,6 @@ ApplicationWindow {
         anchors.fill: parent
         anchors.margins: 20
         spacing: 20
-
-        ComboBox {
-            id: languageSelector
-            model: ["Английский -> Морзе", "Морзе -> Английский"]
-            width: parent.width * 0.5
-            font.pointSize: 14
-            onCurrentIndexChanged: {
-                updateTranslation();
-            }
-        }
 
         Row {
             spacing: 20
