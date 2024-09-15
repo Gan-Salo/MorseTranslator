@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtQuick.Dialogs
+import QtQuick.Dialogs 1.3
 import TranslatorLogic 1.0
 import FileHandler 1.0
 
@@ -21,11 +21,14 @@ ApplicationWindow {
     FileDialog {
         id: fileDialogSave
 
-        fileMode: FileDialog.SaveFile
+        title: "Save File"
         nameFilters: ["Text files (*.txt)"]
+        selectFolder: false
+        selectExisting: false
+
         onAccepted: {
-            var filePath = fileDialogSave.selectedFile.toString();
-            filePath = filePath.replace("file:///", "");
+            var filePath = fileDialogSave.fileUrl.toString();
+            filePath = filePath.replace("file://", "");
             fileHandler.saveToFile(filePath, outputText.text);
         }
     }
@@ -33,10 +36,12 @@ ApplicationWindow {
     FileDialog {
         id: fileDialogLoad
 
-        fileMode: FileDialog.OpenFile
+        title: "Open File"
         nameFilters: ["Text files (*.txt)"]
+        selectFolder: false
+
         onAccepted: {
-            var filePath = fileDialogLoad.selectedFile.toString();
+            var filePath = fileDialogLoad.fileUrl.toString();
             filePath = filePath.replace("file://", "");
             var fileContent = fileHandler.loadFromFile(filePath);
             inputText.text = fileContent;
@@ -67,11 +72,13 @@ ApplicationWindow {
 
                 TextArea {
                     id: inputText
+
                     height: 200
                     selectByMouse: true
                     placeholderText: ""
                     wrapMode: TextEdit.Wrap
                     font.pointSize: 14
+
                     onTextChanged: {
                         updateTranslation();
                     }
@@ -82,8 +89,10 @@ ApplicationWindow {
                 width: parent.width * 0.5
                 height: 200
 
+
                 TextArea {
                     id: outputText
+
                     selectByMouse: true
                     readOnly: true
                     font.pointSize: 14
@@ -103,6 +112,7 @@ ApplicationWindow {
                 text: "Очистить"
                 width: parent.width * 0.3
                 font.pointSize: 14
+
                 onClicked: {
                     inputText.text = "";
                     outputText.text = "";
@@ -113,6 +123,7 @@ ApplicationWindow {
                 text: "Загрузить из файла"
                 width: parent.width * 0.3
                 font.pointSize: 14
+
                 onClicked: {
                     fileDialogLoad.open()
                 }
@@ -122,6 +133,7 @@ ApplicationWindow {
                 text: "Сохранить в файл"
                 width: parent.width * 0.3
                 font.pointSize: 14
+
                 onClicked: {
                     fileDialogSave.open()
                 }
