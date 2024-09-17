@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtQuick.Dialogs 1.3
+import QtQuick.Dialogs
 import TranslatorLogic 1.0
 import FileHandler 1.0
 
@@ -20,29 +20,26 @@ ApplicationWindow {
 
     FileDialog {
         id: fileDialogSave
-
         title: "Save File"
         nameFilters: ["Text files (*.txt)"]
-        selectFolder: false
-        selectExisting: false
+        fileMode: FileDialog.SaveFile
 
         onAccepted: {
-            var filePath = fileDialogSave.fileUrl.toString();
-            filePath = filePath.replace("file://", "");
+            var filePath = fileDialogSave.selectedFile.toString();
+            filePath = filePath.replace(Qt.platform.os === "windows" ? "file:///" : "file://", "");
             fileHandler.saveToFile(filePath, outputText.text);
         }
     }
 
     FileDialog {
         id: fileDialogLoad
-
         title: "Open File"
         nameFilters: ["Text files (*.txt)"]
-        selectFolder: false
+        fileMode: FileDialog.OpenFile
 
         onAccepted: {
-            var filePath = fileDialogLoad.fileUrl.toString();
-            filePath = filePath.replace("file://", "");
+            var filePath = fileDialogLoad.selectedFile.toString();
+            filePath = filePath.replace(Qt.platform.os === "windows" ? "file:///" : "file://", "");
             var fileContent = fileHandler.loadFromFile(filePath);
             inputText.text = fileContent;
             updateTranslation();
